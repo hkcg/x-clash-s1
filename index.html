@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X-Clash: Season 1 Map Evolution</title>
+    <style>
+        :root {
+            --primary-color: #e0a96d;
+            --bg-color: #1a1a1d;
+            --text-color: #ededed;
+            --card-bg: #2b2b30;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Language Toggle Styles */
+        .lang-zh { display: none; }
+        body.zh-active .lang-en { display: none; }
+        body.zh-active .lang-zh { display: block; }
+        span.lang-zh { display: none; }
+        body.zh-active span.lang-zh { display: inline; }
+
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .lang-toggle:hover {
+            transform: scale(1.05);
+            background-color: #f0b97d;
+        }
+
+        header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('images/01-game.png') center/cover;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 3rem;
+            margin: 0 0 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #ccc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .section-content {
+            padding: 2rem;
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid #444;
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background-color: #222;
+        }
+
+        .image-card {
+            display: flex;
+            flex-direction: column;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #111;
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .image-caption {
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #ddd;
+        }
+
+        .feature-highlight {
+            background: rgba(224, 169, 109, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .full-width-img {
+            width: 100%;
+            max-height: 600px;
+            object-fit: contain;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="lang-toggle" onclick="toggleLanguage()">
+        <span class="lang-en">繁體中文</span>
+        <span class="lang-zh">English</span>
+    </button>
+
+    <header>
+        <h1 class="lang-en">X-Clash: Season 1 Map Evolution</h1>
+        <h1 class="lang-zh">超能戰爭：第一賽季地圖演變</h1>
+        
+        <p class="subtitle lang-en">Discover how the world of X-Clash has transformed from the Pre-Season Normal Map to the highly anticipated Season 1 Map. Explore the new square levels, expanded progression, and dynamic terrain.</p>
+        <p class="subtitle lang-zh">探索超能戰爭的世界如何從季前賽的普通地圖轉變為備受期待的第一賽季地圖。探索全新的方形關卡、擴展的進度系統以及動態地形。</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="section">
+            <img src="images/01-game.png" alt="X-Clash Game Overview" class="full-width-img">
+            <div class="section-content">
+                <h2 class="lang-en">A New World Awaits</h2>
+                <h2 class="lang-zh">一個全新的世界等待著您</h2>
+                
+                <p class="lang-en">The transition into Season 1 brings a massive visual and structural overhaul to the X-Clash map. Unlike the pre-season normal map which featured a standard layout, Season 1 introduces a highly structured, grid-based terrain system. This new design not only looks cleaner but fundamentally changes how alliances plan their expansions and how players interact with the environment.</p>
+                <p class="lang-zh">過渡到第一賽季為超能戰爭地圖帶來了巨大的視覺和結構改造。與採用標準佈局的季前賽普通地圖不同，第一賽季引入了高度結構化的網格地形系統。這種新設計不僅看起來更簡潔，而且從根本上改變了聯盟規劃擴張以及玩家與環境互動的方式。</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-content">
+                <h2 class="lang-en">Introducing: The New Square Levels</h2>
+                <h2 class="lang-zh">隆重介紹：全新的方形關卡</h2>
+                
+                <p class="lang-en">One of the most noticeable differences in Season 1 is the introduction of the <strong>new square levels</strong>. These distinct, perfectly squared resource and challenge nodes replace the organic, scattered nodes of the pre-season map. This makes identifying high-value targets and organizing alliance territory much more strategic.</p>
+                <p class="lang-zh">第一賽季最顯著的變化之一是引入了<strong>全新的方形關卡</strong>。這些獨特、完美的方形資源和挑戰節點取代了季前賽地圖中有機、分散的節點。這使得識別高價值目標和組織聯盟領地變得更具戰略性。</p>
+                
+                <div class="feature-highlight">
+                    <div class="lang-en">
+                        <strong>Level Progression Expanded:</strong> The pre-season map had a limited tier of nodes. Season 1 pushes the boundaries by adding <strong>1 more Level 6</strong> node type to the mid-game progression, bridging the gap to the ultimate end-game nodes like the massive Level 10 squares!
+                    </div>
+                    <div class="lang-zh">
+                        <strong>關卡進度擴展：</strong> 季前賽地圖的節點層級有限。第一賽季突破了界限，在中期進度中增加了<strong>1 個額外的 6 級</strong>節點類型，彌合了通往巨大 10 級方形等最終遊戲節點的差距！
+                    </div>
+                </div>
+            </div>
+            <div class="image-grid">
+                <div class="image-card">
+                    <img src="images/02-lv10.png" alt="Level 10 Square">
+                    <div class="image-caption lang-en">A massive Level 10 Square Node. Notice the distinct borders and imposing structure compared to normal map nodes.</div>
+                    <div class="image-caption lang-zh">巨大的 10 級方形節點。請注意與普通地圖節點相比，其獨特的邊界和宏偉的結構。</div>
+                </div>
+                <div class="image-card">
+                    <img src="images/03-lv10-zoom-out.png" alt="Level 10 Zoomed Out">
+                    <div class="image-caption lang-en">Zooming out reveals how these high-level squares dominate their local regions, serving as major contest points.</div>
+                    <div class="image-caption lang-zh">縮小視角可以發現這些高級方形如何主導其所在區域，成為主要的爭奪點。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-content">
+                <h2 class="lang-en">Exploring the Lower Tiers</h2>
+                <h2 class="lang-zh">探索較低層級</h2>
+                
+                <p class="lang-en">It's not just the top-end that got a revamp. The early to mid-game progression has been smoothed out with beautifully redesigned square tiles for the lower levels. The addition of the new Level 6 nodes ensures that players always have a steady stepping stone as they grow their power.</p>
+                <p class="lang-zh">不僅僅是頂級節點得到了改造。早期到中期的進度也變得更加平滑，為較低級別重新設計了精美的方形圖塊。全新 6 級節點的加入確保了玩家在增強實力時始終有穩定的墊腳石。</p>
+            </div>
+            <div class="image-grid">
+                <div class="image-card">
+                    <img src="images/04-other-lv-1.png" alt="Level 1 Node">
+                    <div class="image-caption lang-en">Level 1 Square Node - The starting point for new Season 1 players.</div>
+                    <div class="image-caption lang-zh">1 級方形節點 - 第一賽季新玩家的起點。</div>
+                </div>
+                <div class="image-card">
+                    <img src="images/05-other-lv-2.png" alt="Level 2 Node">
+                    <div class="image-caption lang-en">Level 2 Square Node - Slightly larger yields and tougher challenges.</div>
+                    <div class="image-caption lang-zh">2 級方形節點 - 產量略高，挑戰更艱難。</div>
+                </div>
+                <div class="image-card">
+                    <img src="images/06-other-lv-3.png" alt="Level 3 Node">
+                    <div class="image-caption lang-en">Level 3 Square Node - Mid-tier progression tiles.</div>
+                    <div class="image-caption lang-zh">3 級方形節點 - 中階進度圖塊。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-content">
+                <h2 class="lang-en">Macro Strategy & Map Navigation</h2>
+                <h2 class="lang-zh">宏觀戰略與地圖導航</h2>
+                
+                <p class="lang-en">Because the Season 1 map utilizes these new square levels, zooming out gives commanders a much clearer tactical view of the battlefield. Moving around the map feels more deliberate, as every square tile represents a specific challenge, resource, or strategic chokepoint.</p>
+                <p class="lang-zh">因為第一賽季地圖使用了這些新的方形關卡，縮小視角能為指揮官提供更清晰的戰場戰術視圖。在地圖上移動感覺更加深思熟慮，因為每個方形圖塊都代表著特定的挑戰、資源或戰略咽喉。</p>
+            </div>
+            <div class="image-grid">
+                <div class="image-card">
+                    <img src="images/07-zoom-out-again-to-show-more-lvls.png" alt="Macro Map View">
+                    <div class="image-caption lang-en">A macro view showing the density and distribution of the new square levels across the terrain.</div>
+                    <div class="image-caption lang-zh">宏觀視圖顯示了新方形關卡在地形上的密度和分佈。</div>
+                </div>
+                <div class="image-card">
+                    <img src="images/08-move-around.png" alt="Moving Around the Map">
+                    <div class="image-caption lang-en">Panning across the map reveals the vast scale of the Season 1 updates.</div>
+                    <div class="image-caption lang-zh">平移地圖揭示了第一賽季更新的巨大規模。</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleLanguage() {
+            document.body.classList.toggle('zh-active');
+        }
+    </script>
+</body>
+</html>
