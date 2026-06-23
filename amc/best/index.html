@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMC Union - X-Clash</title>
+    <style>
+        :root {
+            --ui-blue-top: #56b8ff;
+            --ui-blue-bottom: #1980eb;
+            --ui-gold: #ffcf10;
+            --ui-gold-dark: #d89600;
+            --text-outline: #0b3d70;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial Rounded MT Bold', 'Arial Black', 'Segoe UI', sans-serif;
+            overflow: hidden;
+            user-select: none;
+            /* Give a dark base so if anything fails, it isn't pure white */
+            background-color: #0a1118; 
+        }
+
+        /* 
+         * Safely wraps the background to clip blur overflow and maintain z-index
+         */
+        .background-wrapper {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            overflow: hidden;
+            z-index: 0; /* Positive index to prevent it from disappearing behind the body! */
+        }
+
+        /* 
+         * The background grid of 20 blocks.
+         * The images are loaded with a TINY blur from Python.
+         * We apply the MAIN blur here so ALL blocks get blurred equally!
+         */
+        .background-grid {
+            position: absolute;
+            top: -5%; left: -5%; right: -5%; bottom: -5%;
+            display: grid;
+            /* 5 columns by 4 rows creates the original 20 boxes */
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            /* Blur the entire 20-block grid evenly */
+            filter: blur(25px) saturate(1.2) brightness(0.9);
+            transform: scale(1.1); /* Hides blurred edges */
+        }
+
+        .bg-box {
+            /* Position and size are set dynamically in JS for each box */
+            background-size: cover;
+            background-position: center;
+            /* Overlap the boxes slightly (scale > 1) so grid lines disappear into the blur */
+            transform: scale(1.15);
+        }
+
+        /* Ambient floating orbs for "energy" */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 50px var(--ui-gold);
+            filter: blur(5px);
+            animation: floatUp linear infinite;
+            z-index: 5;
+        }
+
+        .orb:nth-child(1) { width: 60px; height: 60px; left: 15%; animation-duration: 12s; animation-delay: 0s; }
+        .orb:nth-child(2) { width: 90px; height: 90px; left: 75%; animation-duration: 18s; animation-delay: -5s; }
+        .orb:nth-child(3) { width: 40px; height: 40px; left: 45%; animation-duration: 10s; animation-delay: -2s; }
+        .orb:nth-child(4) { width: 70px; height: 70px; left: 85%; animation-duration: 15s; animation-delay: -8s; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) scale(0.8); opacity: 0; }
+            10% { opacity: 0.6; }
+            80% { opacity: 0.5; }
+            100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* Tips Link Styling */
+        .tips-wrapper {
+            margin-top: 2rem;
+            font-size: 1.4rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 
+                -2px -2px 0 var(--text-outline),  
+                 2px -2px 0 var(--text-outline),
+                -2px  2px 0 var(--text-outline),
+                 2px  2px 0 var(--text-outline),
+                 0    4px 0 var(--text-outline),
+                 0    6px 8px rgba(0,0,0,0.6);
+            animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation-delay: 0.2s;
+            opacity: 0;
+            z-index: 15;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ffffff;
+        }
+
+        .tips-link {
+            color: #ffffff;
+            text-decoration: none;
+            transition: transform 0.2s ease, color 0.2s ease;
+            display: inline-block;
+        }
+
+        .tips-link:hover {
+            transform: scale(1.1);
+            color: var(--ui-gold);
+        }
+
+        /* Casual Mobile Game UI Card */
+        .union-card {
+            background: linear-gradient(180deg, var(--ui-blue-top) 0%, var(--ui-blue-bottom) 100%);
+            border: 6px solid var(--ui-gold);
+            border-radius: 30px;
+            padding: 3rem 4rem;
+            text-align: center;
+            box-shadow: 
+                inset 0 0 0 4px rgba(255, 255, 255, 0.4), 
+                0 10px 0 var(--ui-gold-dark), 
+                0 20px 35px rgba(0, 0, 0, 0.6);
+            max-width: 400px;
+            width: 85%;
+            position: relative;
+            animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Flag / Avatar Frame */
+        .flag-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: #fff;
+            border: 6px solid var(--ui-gold);
+            box-shadow: 
+                0 6px 0 var(--ui-gold-dark),
+                0 10px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 15;
+        }
+
+        .flag-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            background-color: #e0e0e0;
+        }
+
+        /* Typography Styling */
+        .union-short, .union-name, .union-server {
+            color: #ffffff;
+            text-shadow: 
+                -2px -2px 0 var(--text-outline),  
+                 2px -2px 0 var(--text-outline),
+                -2px  2px 0 var(--text-outline),
+                 2px  2px 0 var(--text-outline),
+                 0    4px 0 var(--text-outline),
+                 0    6px 8px rgba(0,0,0,0.5);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .union-short {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            color: var(--ui-gold);
+            text-transform: uppercase;
+        }
+
+        .union-name {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .union-server-badge {
+            display: inline-block;
+            background: linear-gradient(180deg, #ff6b6b 0%, #cc0000 100%);
+            border: 3px solid #ffffff;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 0 #880000, 0 6px 10px rgba(0,0,0,0.3);
+        }
+
+        .union-server {
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-shadow: 
+                -1px -1px 0 #660000,  
+                 1px -1px 0 #660000,
+                -1px  1px 0 #660000,
+                 1px  1px 0 #660000,
+                 0    2px 0 #660000;
+        }
+
+        .star {
+            position: absolute;
+            color: var(--ui-gold);
+            font-size: 2rem;
+            text-shadow: 0 2px 0 var(--ui-gold-dark);
+            z-index: 15;
+        }
+        .star-left { top: -15px; left: -15px; transform: rotate(-15deg); }
+        .star-right { top: -15px; right: -15px; transform: rotate(15deg); }
+
+    </style>
+</head>
+<body>
+    <!-- Background grid holding the 20 randomly distributed images -->
+    <div class="background-wrapper">
+        <div class="background-grid" id="bgMosaic"></div>
+    </div>
+
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+
+    <div class="container">
+        <div class="union-card" id="unionCard">
+            <div class="star star-left">★</div>
+            <div class="star star-right">★</div>
+            
+            <div class="flag-container">
+                <img src="" alt="Union Flag" class="flag-image" id="unionFlag">
+            </div>
+            <h3 class="union-short" id="unionShort">Loading...</h3>
+            <h1 class="union-name" id="unionName">Loading...</h1>
+            <div class="union-server-badge">
+                <span class="union-server" id="unionServer">Loading...</span>
+            </div>
+        </div>
+
+        <div class="tips-wrapper">
+            <span>|</span>
+            <a href="https://www.protectedtext.com/xclash" target="_blank" class="tips-link">Tips</a>
+            <span>|</span>
+        </div>
+    </div>
+
+    <!-- Load Data -->
+    <script src="data.js"></script>
+    <script src="bg.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const bgMosaic = document.getElementById('bgMosaic');
+            
+            // Build 20 rectangular blocks (5x4 grid) in Javascript
+            for (let i = 0; i < 20; i++) {
+                const box = document.createElement('div');
+                box.className = 'bg-box';
+                
+                const randomImg = bgImagesData[Math.floor(Math.random() * bgImagesData.length)];
+                box.style.backgroundImage = `url('${randomImg}')`;
+                
+                // Keep the background size at cover so the full image fills the block
+                box.style.backgroundSize = 'cover';
+                box.style.backgroundPosition = 'center';
+                
+                // Randomly flip horizontally/vertically to make the pattern less obvious
+                const scaleX = Math.random() > 0.5 ? 1 : -1;
+                const scaleY = Math.random() > 0.5 ? 1 : -1;
+                // Keep the scale fixed to 1.3, but use scaleX and scaleY for flipping
+                box.style.transform = `scale(${1.3 * scaleX}, ${1.3 * scaleY})`;
+                
+                bgMosaic.appendChild(box);
+            }
+
+            // LOAD UNION DATA
+            if (typeof TEAM !== 'undefined' && TEAM.amc) {
+                const amc = TEAM.amc;
+                document.getElementById('unionFlag').src = amc.flag;
+                document.getElementById('unionShort').textContent = 'Union ' + amc.short;
+                document.getElementById('unionName').textContent = amc.name;
+                document.getElementById('unionServer').textContent = 'Server ' + amc.server;
+            } else {
+                document.getElementById('unionName').textContent = 'Data Not Found';
+                document.getElementById('unionShort').textContent = 'ERROR';
+                document.querySelector('.union-server-badge').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
